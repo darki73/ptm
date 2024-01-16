@@ -1,0 +1,25 @@
+project_name: ptm
+
+builds:
+  - binary: ptm
+    env:
+      - CGO_ENABLED=0
+    ldflags:
+      - -s -w -X github.com/darki73/ptm/pkg/version.Version={{.Version}} -X github.com/darki73/ptm/pkg/version.Commit={{.Commit}} -X github.com/darki73/ptm/pkg/version.Date={{.Date}} -X github.com/darki73/ptm/pkg/version.Builder=goreleaser
+    goos:
+      - linux
+    goarch:
+      - amd64
+changelog:
+  skip: true
+
+archives:
+  - id: ptm
+    name_template: '{{ .ProjectName }}_v{{ .Version }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}'
+    format: tar.gz
+    files:
+      - LICENSE.md
+      - README.md
+
+checksum:
+  name_template: "{{ .ProjectName }}_v{{ .Version }}_checksums.txt"
